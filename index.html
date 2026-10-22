@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101b35">
+    <meta name="description" content="An interactive digital electronics lab for exploring logic gates, half adders, and full adders.">
+    <title>Digital Logic Lab — Interactive Electronics Studio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="header-inner">
+        <a class="brand" href="#home" aria-label="Digital Logic Lab home">
+            <span class="brand-mark" aria-hidden="true">ϟ</span>
+            <span>Digital<span class="brand-light">Logic Lab</span></span>
+        </a>
+        <span class="header-status"><span class="status-dot"></span> Interactive learning studio</span>
+    </div>
+</header>
+
+<main id="home" class="page-shell">
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+            <p class="eyebrow"><span class="eyebrow-line"></span> DIGITAL ELECTRONICS, MADE CLEAR</p>
+            <h1 id="hero-title">Build a better understanding of <span>bits.</span></h1>
+            <p class="hero-description">Explore the building blocks of digital systems. Flip inputs, watch outputs change, and see the logic behind every result.</p>
+            <a class="hero-link" href="#explore">Explore the lab <span aria-hidden="true">↓</span></a>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+            <div class="circuit-node node-a">1</div>
+            <div class="circuit-node node-b">0</div>
+            <div class="circuit-core">AND</div>
+            <div class="circuit-output"></div>
+            <span class="art-label label-input">INPUT</span>
+            <span class="art-label label-output">OUTPUT</span>
+        </div>
+        <div class="hero-bottom"><span>LEARN BY DOING</span><span>01 / 03</span></div>
+    </section>
+
+    <section id="explore" class="explore-section" aria-labelledby="explore-title">
+        <div class="section-heading">
+            <div>
+                <p class="section-kicker">PICK A MODULE</p>
+                <h2 id="explore-title">Start with the fundamentals</h2>
+            </div>
+            <p class="section-intro">Choose a simulator to experiment with its inputs and truth table.</p>
+        </div>
+
+        <div class="cards">
+            <article class="card card-gates">
+                <div class="card-topline"><span class="card-icon" aria-hidden="true">⌘</span><span class="card-number">01</span></div>
+                <p class="card-label">BOOLEAN LOGIC</p>
+                <h3>Logic Gates</h3>
+                <p class="card-description">See how simple rules turn binary inputs into decisions.</p>
+                <div class="tag-list"><span>AND</span><span>OR</span><span>NOT</span><span>+4</span></div>
+                <button class="action-button" onclick="openSimulator('logic')">Open simulator <span aria-hidden="true">→</span></button>
+            </article>
+
+            <article class="card card-half">
+                <div class="card-topline"><span class="card-icon" aria-hidden="true">＋</span><span class="card-number">02</span></div>
+                <p class="card-label">BINARY ADDITION</p>
+                <h3>Half Adder</h3>
+                <p class="card-description">Add two one-bit values and separate the sum from the carry.</p>
+                <div class="mini-equation"><span>A</span><b>+</b><span>B</span><b>=</b><span class="equation-result">SUM + CARRY</span></div>
+                <button class="action-button" onclick="openSimulator('half')">Open simulator <span aria-hidden="true">→</span></button>
+            </article>
+
+            <article class="card card-full">
+                <div class="card-topline"><span class="card-icon" aria-hidden="true">∑</span><span class="card-number">03</span></div>
+                <p class="card-label">CARRY-AWARE ADDITION</p>
+                <h3>Full Adder</h3>
+                <p class="card-description">Add two bits plus an incoming carry to model multi-bit addition.</p>
+                <div class="mini-equation"><span>A</span><b>+</b><span>B</span><b>+</b><span>Cin</span></div>
+                <button class="action-button" onclick="openSimulator('full')">Open simulator <span aria-hidden="true">→</span></button>
+            </article>
+        </div>
+    </section>
+
+    <section class="simulator-section" aria-label="Interactive simulators">
+        <!-- LOGIC GATE -->
+        <section id="logic" class="simulator" aria-labelledby="logic-title">
+            <div class="simulator-heading">
+                <div class="module-icon" aria-hidden="true">⌘</div>
+                <div><p class="section-kicker">MODULE 01 · BOOLEAN LOGIC</p><h2 id="logic-title">Logic Gate Simulator</h2></div>
+                <span class="live-badge"><span class="status-dot"></span> LIVE</span>
+            </div>
+            <p class="simulator-intro">Select a gate, set its binary inputs, and observe the output. A truth table shows every possible input combination.</p>
+
+            <div class="simulator-workbench">
+                <div class="controls">
+                    <label for="gate">Select Gate</label>
+                    <select id="gate" onchange="calculateGate()">
+                        <option>AND</option>
+                        <option>OR</option>
+                        <option>NOT</option>
+                        <option>NAND</option>
+                        <option>NOR</option>
+                        <option>XOR</option>
+                        <option>XNOR</option>
+                    </select>
+                </div>
+
+                <div class="logic-flow">
+                    <div class="inputs">
+                        <div class="input-control">
+                            <label for="A">Input A</label>
+                            <button class="bit-toggle" id="A" onclick="toggle('A')">0</button>
+                        </div>
+                        <div class="input-control" id="inputB">
+                            <label for="B">Input B</label>
+                            <button class="bit-toggle" id="B" onclick="toggle('B')">0</button>
+                        </div>
+                    </div>
+                    <div class="gate-box"><span class="gate-symbol" aria-hidden="true">&amp;</span><span id="gateName">AND</span></div>
+                    <div class="output-box"><span class="output-label">OUTPUT</span><strong id="output">0</strong></div>
+                </div>
+                <div class="simulator-actions"><p>Try different inputs to explore the gate’s behavior.</p><button class="secondary-button" onclick="showTruthTable()">View truth table <span aria-hidden="true">↗</span></button></div>
+                <div id="truthTable" class="truth-table" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <!-- HALF ADDER -->
+        <section id="half" class="simulator" aria-labelledby="half-title">
+            <div class="simulator-heading">
+                <div class="module-icon module-icon-cyan" aria-hidden="true">＋</div>
+                <div><p class="section-kicker">MODULE 02 · BINARY ADDITION</p><h2 id="half-title">Half Adder Simulator</h2></div>
+                <span class="live-badge"><span class="status-dot"></span> LIVE</span>
+            </div>
+            <p class="simulator-intro">A half adder combines two single-bit inputs. The sum is produced by XOR; the carry is produced by AND.</p>
+
+            <div class="simulator-workbench">
+                <div class="inputs adder-inputs">
+                    <div class="input-control"><label for="HA">Input A</label><button class="bit-toggle" id="HA" onclick="toggle('HA')">0</button></div>
+                    <div class="input-control"><label for="HB">Input B</label><button class="bit-toggle" id="HB" onclick="toggle('HB')">0</button></div>
+                </div>
+                <div class="adder-box"><span class="adder-glyph" aria-hidden="true">＋</span><span>HALF ADDER</span><small>2 inputs · 2 outputs</small></div>
+                <div class="result-box">
+                    <div><span>SUM</span><strong id="sum">0</strong></div>
+                    <div><span>CARRY</span><strong id="carry">0</strong></div>
+                </div>
+                <div class="formula-list"><p class="formula"><span>SUM</span><code>A XOR B</code></p><p class="formula"><span>CARRY</span><code>A AND B</code></p></div>
+                <div class="simulator-actions"><p>Toggle either bit to see the sum and carry update.</p><button class="secondary-button" onclick="halfTable()">View truth table <span aria-hidden="true">↗</span></button></div>
+                <div id="halfTable" class="truth-table" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <!-- FULL ADDER -->
+        <section id="full" class="simulator" aria-labelledby="full-title">
+            <div class="simulator-heading">
+                <div class="module-icon module-icon-violet" aria-hidden="true">∑</div>
+                <div><p class="section-kicker">MODULE 03 · CARRY-AWARE ADDITION</p><h2 id="full-title">Full Adder Simulator</h2></div>
+                <span class="live-badge"><span class="status-dot"></span> LIVE</span>
+            </div>
+            <p class="simulator-intro">A full adder includes a carry-in bit, so it can be chained with other adders to add multi-bit binary numbers.</p>
+
+            <div class="simulator-workbench">
+                <div class="inputs adder-inputs">
+                    <div class="input-control"><label for="FA">Input A</label><button class="bit-toggle" id="FA" onclick="toggle('FA')">0</button></div>
+                    <div class="input-control"><label for="FB">Input B</label><button class="bit-toggle" id="FB" onclick="toggle('FB')">0</button></div>
+                    <div class="input-control"><label for="FC">Carry-in</label><button class="bit-toggle" id="FC" onclick="toggle('FC')">0</button></div>
+                </div>
+                <div class="adder-box adder-box-full"><span class="adder-glyph" aria-hidden="true">∑</span><span>FULL ADDER</span><small>3 inputs · 2 outputs</small></div>
+                <div class="result-box">
+                    <div><span>SUM</span><strong id="fullSum">0</strong></div>
+                    <div><span>CARRY-OUT</span><strong id="fullCarry">0</strong></div>
+                </div>
+                <div class="formula-list"><p class="formula"><span>SUM</span><code>A XOR B XOR Cin</code></p><p class="formula"><span>CARRY-OUT</span><code>AB + BCin + ACin</code></p></div>
+                <div class="simulator-actions"><p>Toggle any input bit to explore all eight combinations.</p><button class="secondary-button" onclick="fullTable()">View truth table <span aria-hidden="true">↗</span></button></div>
+                <div id="fullTable" class="truth-table" aria-live="polite"></div>
+            </div>
+        </section>
+    </section>
+
+    <section class="learning-strip" aria-labelledby="learning-title">
+        <div class="learning-symbol" aria-hidden="true">✦</div>
+        <div><p class="section-kicker">A QUICK CONCEPT CHECK</p><h2 id="learning-title">From simple gates to powerful circuits</h2><p>Logic gates process binary values (0 and 1). Combine gates to build adders, then connect adders to create the arithmetic circuits inside computers.</p></div>
+        <div class="learning-steps" aria-label="Learning progression"><span>GATES</span><b>→</b><span>ADDERS</span><b>→</b><span>COMPUTERS</span></div>
+    </section>
+</main>
+
+<footer class="site-footer"><div class="footer-inner"><a class="brand footer-brand" href="#home"><span class="brand-mark" aria-hidden="true">ϟ</span><span>Digital<span class="brand-light">Logic Lab</span></span></a><p>Explore the logic behind the technology you use every day.</p><span class="footer-caption">LEARN · EXPERIMENT · UNDERSTAND</span></div></footer>
+
+<script src="script.js"></script>
+</body>
+</html>
